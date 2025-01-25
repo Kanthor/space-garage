@@ -54,38 +54,38 @@ addLayer("j", {
                 return player[this.layer].points.add(1).pow(0.5)
             },
             effectDisplay() {
-                 return format(upgradeEffect(this.layer, this.id))+"x" 
+                 return format(upgradeEffect(this.layer, this.id))+"x"
             },
         },
     },
-    // doReset(resettingLayer) {
-    //     // Personnalisation lors d'un reset
-    //     if (resettingLayer == "g") return;
-    //     layerDataReset(this.layer, ["upgrades"]);
-    // },
-    milestones: {
-        0: {
-            requirementDescription: "20 useful scraps in storage",
-            effectDescription: "Unlock garage.",
-            done() { return player.j.points.gte(20) }, // Vérifie si le joueur a atteint l'objectif
-        },
+    doReset(resettingLayer) {
+        // Personnalisation lors d'un reset
+        if (resettingLayer == "w")
+            layerDataReset(this.layer, []);
+    },
+    passiveGeneration() {
+        return hasAchievement('a', 11) ? 1 : 0;
     }
 })
 
 function getUsefulScrapGain() {
     let gain = new Decimal(1) // Base gain
-    
+
+    // gain are already affected by the workshop layer (number of robots)
+    gain = gain.add(player.w.points)
+
     // Apply upgrades
     if (hasUpgrade('j', 11)) gain = gain.times(1.5)
     if (hasUpgrade('j', 12)) gain = gain.times(1.25)
     if (hasUpgrade('j', 13)) gain = gain.times(2)
-    
+
+
     return gain
 }
 
 function getScrapGain()
 {
-    let gain = player.points
+    let gain = player.points.times(2)
 
     if (hasUpgrade('j', 21)) gain = gain.times(2)
     if (hasUpgrade('j', 22)) gain = gain.times(upgradeEffect('j', 22))

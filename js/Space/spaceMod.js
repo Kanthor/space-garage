@@ -2,7 +2,11 @@ let modInfo = {
 	name: "Spaceship garage",
 	author: "Denis",
 	pointsName: "space fame",
-	modFiles: ["Space/layers/junkyard.js", "Space/layers/garage.js", "Space/spaceTree.js"],
+	modFiles: [
+		"Space/layers/junkyard.js",
+		"Space/layers/workshop.js",
+		"Space/layers/achievements.js",
+		"Space/spaceTree.js"],
 
 	discordName: "",
 	discordLink: "",
