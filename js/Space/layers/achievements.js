@@ -8,10 +8,16 @@ addLayer("a", {
     row: "side",
     achievements: {
         11: {
-            name: "My precious scraps",
-            doneTooltip: "your scrap obsession becomes noticeable",
+            name: "Scrap License",
+
+            doneTooltip: "At 20 scraps, you are know known as a professional scrap collector (you gain more space fame).",
             done() { return player.j.points.gte(20) },
-            // more features
+        },
+        12: {
+            name: "Robot Army",
+
+            doneTooltip: "At 1000 robots, you have a small army of robots (you gain more space fame).",
+            done() { return player.w.points.gte(100) },
         },
     }
 

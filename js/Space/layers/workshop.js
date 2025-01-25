@@ -31,7 +31,7 @@ addLayer("w", {
         },
         12: {
             title: "Efficient Automation",
-            description: "Optimizes Junk Robot operations, increasing parts gathered by 10%.",
+            description: "Optimizes Junk Robot operations, increasing parts gathered by 100%.",
             cost: new Decimal(50),
         },
         13: {
@@ -39,6 +39,11 @@ addLayer("w", {
             description: "Upgrades Junk Robots to double their scrap collection rate.",
             cost: new Decimal(100),
         },
+        21: {
+            title: "Scraps Robots goes to Work",
+            description: "Junk Robots now gather useful scraps",
+            cost: new Decimal(100),
+        }
     },
     layerShown() { return hasAchievement("a",11) },
     }
@@ -53,7 +58,7 @@ function getBoltGain() {
 
 function getPartGain() {
     let gain = new Decimal(1);
-    if (hasUpgrade("w", 12)) gain = gain.times(1.1); // Optimized Production
+    if (hasUpgrade("w", 12)) gain = gain.times(2); // Optimized Production
     if (hasUpgrade("w", 13)) gain = gain.times(2); // Auto Conversion
     return gain;
 }

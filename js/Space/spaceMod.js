@@ -16,14 +16,14 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0",
-	name: "Literally nothing",
+	num: "0.1",
+	name: "Rise of the robots",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.0</h3><br>
-		- Added things.<br>
-		- Added stuff.`
+	<h3>v0.1</h3><br>
+		- Robots helps gathering scraps.<br>
+		- New achievment.`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
@@ -46,6 +46,11 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = new Decimal(1)
+
+	if(hasAchievement("a", 11)) gain = gain.times(1.5)
+	if(hasAchievement("a", 12)) gain = gain.times(2)
+
+
 	return gain
 }
 

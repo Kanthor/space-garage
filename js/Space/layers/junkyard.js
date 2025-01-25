@@ -29,42 +29,82 @@ addLayer("j", {
         11: {
             title: "Scrap Magnet",
             description: "Attracts nearby useful scraps, increasing collection rate by 50%.",
-            cost: new Decimal(5),
+            cost: new Decimal(2),
         },
         12: {
             title: "Sorting Bins",
-            description: "Organize your useful scraps, increasing their value by 25%.",
-            cost: new Decimal(10),
+            description: "Organize your useful scraps, increasing their gain amount by 25%.",
+            cost: new Decimal(5),
         },
         13: {
             title: "Scrap Detector",
             description: "Helps locate useful scraps, doubling your scrap gain.",
-            cost: new Decimal(15),
+            cost: new Decimal(10),
         },
         21: {
             title: "Shovel",
             description: "Dig up scraps from the ground, increasing your scrap gain by 100%.",
-            cost: new Decimal(5),
+            cost: new Decimal(2),
         },
         22: {
             title: "Garbage Truck",
-            description: "Vroom Vroom, increasing your scrap based on your useful scraps.",
+            description: "Vroom Vroom, more scraps!",
             cost: new Decimal(10),
-            effect() {
-                return player[this.layer].points.add(1).pow(0.5)
-            },
-            effectDisplay() {
-                 return format(upgradeEffect(this.layer, this.id))+"x"
-            },
         },
+        23: {
+            title: "Crane",
+            description: "Lift up scraps from the ground, increasing your scrap gain by 100%.",
+            cost: new Decimal(20),
+        },
+        31: {
+            title: "Robot mode : Recycler",
+            description: "Recycle your scraps, increasing your scrap gain by 100%.",
+            cost: new Decimal(100),
+            unlocked() { return hasAchievement('a', 11) }
+        },
+        32: {
+            title: "Robot mode : Sorter",
+            description: "Automatically sorts your scraps, increasing your scrap gain by 100%.",
+            cost: new Decimal(400),
+            unlocked() { return hasAchievement('a', 11) }
+        },
+        33: {
+            title: "Robot mode : Preserver",
+            description: "Robots does not destroy your upgrades anymore.",
+            cost: new Decimal(1000),
+            unlocked() { return hasAchievement('a', 11) }
+
+        },
+
+        // 22: {
+        //     title: "Garbage Truck",
+        //     description: "Vroom Vroom, more scraps!",
+        //     cost: new Decimal(1000),
+        //     effect() {
+        //         return player[this.layer].points.add(1).pow(0.5)
+        //     },
+        //     effectDisplay() {
+        //          return format(upgradeEffect(this.layer, this.id))+"x"
+        //     },
+        // },
     },
     doReset(resettingLayer) {
         // Personnalisation lors d'un reset
         if (resettingLayer == "w")
-            layerDataReset(this.layer, []);
+        {
+            if (hasUpgrade('j', 33))
+            {
+                layerDataReset(this.layer, ["upgrades"])
+            }
+            else
+            {
+                layerDataReset(this.layer, []);
+            }
+        }
+
     },
     passiveGeneration() {
-        return hasAchievement('a', 11) ? 1 : 0;
+        return hasUpgrade('w', 21) ? 1 : 0;
     }
 })
 
@@ -88,7 +128,11 @@ function getScrapGain()
     let gain = player.points.times(2)
 
     if (hasUpgrade('j', 21)) gain = gain.times(2)
-    if (hasUpgrade('j', 22)) gain = gain.times(upgradeEffect('j', 22))
+    if (hasUpgrade('j', 22)) gain = gain.times(2)
+    if (hasUpgrade('j', 23)) gain = gain.times(2)
+
+    if (hasUpgrade('j', 31)) gain = gain.times(2)
+    if (hasUpgrade('j', 32)) gain = gain.times(4)
 
     return gain
 }
